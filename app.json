@@ -1,15 +1,16 @@
 {
   "expo": {
-    "name": "exponovo",
-    "slug": "exponovo",
+    "name": "Natureza Prioridade",
+    "slug": "naturezaprioridade",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "exponovo",
+    "icon": "./assets/images/logo.png",
+    "scheme": "naturezaprioridade",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.naturezaprioridade"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +20,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.natureza_prioridade"
     },
     "web": {
       "output": "static",
@@ -33,7 +35,7 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#E6F4FE",
           "dark": {
             "backgroundColor": "#000000"
           }
@@ -43,7 +45,7 @@
         "expo-font",
         {
           "fonts": [
-            "node_modules/@expo-google-fonts/protest-riot/Protest-Riot-Regular.ttf"
+            "./assets/fonts/Protest-Riot-Regular.ttf"
           ]
         }
       ]
@@ -51,6 +53,19 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "9d8ed048-99c6-439c-a1fb-bee0fd92ee5a"
+      }
+    },
+    "owner": "samuel1210",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/9d8ed048-99c6-439c-a1fb-bee0fd92ee5a"
     }
   }
 }
