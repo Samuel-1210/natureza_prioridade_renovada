@@ -13,8 +13,8 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text className="p-2 text-black">
-        Bem vindo!
+      <Text className="p-2 text-black font-riot">
+        Bem vindo!!
         {user?.name}
       </Text>
       <Pressable onPress={() => signOut()}>

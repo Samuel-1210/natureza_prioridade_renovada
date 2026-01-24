@@ -11,3 +11,7 @@
  */
 @source "./app/**/*.{ts,tsx}";
 @source './node_modules/heroui-native/lib';
+
+@theme {
+  --font-riot: Riot;
+}
