@@ -62,7 +62,7 @@ export default function TabLayout() {
           shadowColor: "transparent",
         },
         tabBarItemStyle: {
-          borderRadius: 30,
+          borderRadius: 100,
           marginHorizontal: 8,
           marginVertical: 8,
           height: 49,
