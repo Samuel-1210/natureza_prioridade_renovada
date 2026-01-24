@@ -1,20 +1,19 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { Button, Spinner } from "heroui-native";
-import React, { useState } from "react";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
 import {
-  Text,
-  View,
-  Image,
   Dimensions,
-  TouchableOpacity,
+  Image,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { useForm, Controller } from "react-hook-form";
-import { useLogin } from "../../hooks/useLogin";
-import { LinearGradient } from "expo-linear-gradient";
 import { GlassInput } from "../../components/glassInput";
+import { useLogin } from "../../hooks/useLogin";
 
 const { height } = Dimensions.get("window");
 
@@ -60,9 +59,16 @@ export default function Login() {
           showsVerticalScrollIndicator={false}
         >
           <View className="items-center mb-10">
-            <Text className="text-white text-5xl font-riot text-center mb-3 tracking-wide">
-              Natureza Prioridade
-            </Text>
+            <View className="flex-row items-center mr-8">
+              <Text className="text-white text-5xl font-riot text-center mb-3 tracking-wide">
+                Natureza Prioridade
+              </Text>
+              <Image
+                source={require("../../assets/logotipo.png")}
+                className="-ml-16 h-30 w-30 rounded-full object-cover"
+              />
+            </View>
+
             <Text className="text-gray-200 text-lg text-center px-4 font-sans leading-6 opacity-90">
               Conectando você ao que realmente importa.
             </Text>
