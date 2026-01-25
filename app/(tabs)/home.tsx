@@ -1,5 +1,5 @@
-import { Pressable, Text, View } from "react-native";
 import { Link } from "expo-router";
+import { Pressable, Text, View } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 
 export default function Index() {
