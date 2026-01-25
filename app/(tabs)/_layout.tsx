@@ -45,7 +45,8 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#295700",
+        tabBarActiveTintColor: "#3ea201",
+        //  tabBarActiveTintColor: "#295700",
         tabBarInactiveTintColor: "#3ea201",
         tabBarStyle: {
           position: "absolute",
@@ -70,7 +71,7 @@ export default function TabLayout() {
         },
 
         tabBarLabelStyle: {
-          marginTop:6,
+          marginTop: 6,
           fontSize: 12,
           fontWeight: "600",
         },
