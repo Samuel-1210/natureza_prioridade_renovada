@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
     "scheme": "naturezaprioridade",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
@@ -44,9 +44,7 @@
       [
         "expo-font",
         {
-          "fonts": [
-            "./assets/fonts/Protest-Riot-Regular.ttf"
-          ]
+          "fonts": ["./assets/fonts/Protest-Riot-Regular.ttf"]
         }
       ]
     ],

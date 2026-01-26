@@ -1,5 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { Card } from "heroui-native";
+import { Button, Card } from "heroui-native";
 import { Dimensions, Image, ScrollView, Text, View } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 
@@ -103,13 +103,24 @@ export default function Profile() {
         </Card>
       </View>
 
-      <View className="mx-4 items-start ">
-        <Text className="text-gray-500 text-xs font-riot">
-          Informações do aplicativo:
-        </Text>
-        <Text className="text-gray-500 text-xs font-riot">
-          Natureza Prioridade • 1.0.0
-        </Text>
+      <View></View>
+
+      <View className="mx-4 items-center flex-row justify-between ">
+        <View>
+          <Text className="text-gray-500 text-xs font-riot">
+            Informações do aplicativo:
+          </Text>
+          <Text className="text-gray-500 text-xs font-riot">
+            Natureza Prioridade • 1.0.0
+          </Text>
+        </View>
+        <Button
+          variant="danger-soft"
+          onPress={handleSignOut}
+          className="w-24 mx-4 h-14 rounded-2xl mb-3 border-0"
+        >
+          Sair
+        </Button>
       </View>
     </ScrollView>
   );
