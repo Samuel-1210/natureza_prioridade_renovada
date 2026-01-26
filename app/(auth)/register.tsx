@@ -1,3 +1,4 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { Button, Description } from "heroui-native";
@@ -12,15 +13,23 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { z } from "zod";
 import { GlassInput } from "../../components/glassInput";
 import { useRegister } from "../../hooks/useRegister";
 
-type RegisterForm = {
-  name: string;
-  email: string;
-  password: string;
-  password_confirmation: string;
-};
+const registerSchema = z
+  .object({
+    name: z.string().min(3, "Nome deve ter pelo menos 3 caracteres"),
+    email: z.email("Email inválido"),
+    password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
+    password_confirmation: z.string(),
+  })
+  .refine((data) => data.password === data.password_confirmation, {
+    message: "Senhas não conferem",
+    path: ["password_confirmation"],
+  });
+
+type RegisterForm = z.infer<typeof registerSchema>;
 const { height } = Dimensions.get("window");
 
 export default function Register() {
@@ -28,7 +37,15 @@ export default function Register() {
 
   const { mutate } = useRegister();
 
-  const { control, handleSubmit } = useForm<RegisterForm>();
+  const { control, handleSubmit } = useForm<RegisterForm>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+    },
+  });
 
   const handleRegister = (data: RegisterForm) => {
     mutate({
@@ -59,75 +76,114 @@ export default function Register() {
       </View>
 
       <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+        <View className="items-center mb-6 justify-end mt-12 px-6">
+          <Text className="text-white text-5xl text-center mb-2 font-riot">
+            Criar sua conta
+          </Text>
+          <Text className="text-gray-200 text-center px-4 leading-5 font-sans opacity-90">
+            Preencha os campos abaixo para criar sua conta.
+          </Text>
+        </View>
         <ScrollView
           contentContainerStyle={{ flexGrow: 1, justifyContent: "flex-end" }}
           className="px-6 pb-4"
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <View className="items-center mb-6 justify-end ">
-            <Text className="text-white text-5xl text-center mb-2 font-riot">
-              Criar sua conta
-            </Text>
-            <Text className="text-gray-200 text-center px-4 leading-5 font-sans opacity-90">
-              Preencha os campos abaixo para criar sua conta.
-            </Text>
-          </View>
-
           <View className="gap-y-4 mb-8">
             <Controller
               control={control}
               name="name"
-              render={({ field: { onChange, value } }) => (
-                <GlassInput
-                  icon="person-outline"
-                  placeholder="Seu nome"
-                  onChangeText={onChange}
-                  value={value}
-                />
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <View>
+                  <GlassInput
+                    icon="person-outline"
+                    placeholder="Seu nome"
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                  {error && (
+                    <Text className="text-red-500 text-sm ml-2 mt-1">
+                      {error.message}
+                    </Text>
+                  )}
+                </View>
               )}
             />
 
             <Controller
               control={control}
               name="email"
-              render={({ field: { onChange, value } }) => (
-                <GlassInput
-                  icon="mail-outline"
-                  placeholder="seu@email.com"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  onChangeText={onChange}
-                  value={value}
-                />
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <View>
+                  <GlassInput
+                    icon="mail-outline"
+                    placeholder="seu@email.com"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                  {error && (
+                    <Text className="text-red-500 text-sm ml-2 mt-1">
+                      {error.message}
+                    </Text>
+                  )}
+                </View>
               )}
             />
 
             <Controller
               control={control}
               name="password"
-              render={({ field: { onChange, value } }) => (
-                <GlassInput
-                  icon="lock-closed-outline"
-                  placeholder="Senha"
-                  secureTextEntry={true}
-                  onChangeText={onChange}
-                  value={value}
-                />
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <View>
+                  <GlassInput
+                    icon="lock-closed-outline"
+                    placeholder="Senha"
+                    secureTextEntry={true}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                  {error && (
+                    <Text className="text-red-500 text-sm ml-2 mt-1">
+                      {error.message}
+                    </Text>
+                  )}
+                </View>
               )}
             />
 
             <Controller
               control={control}
               name="password_confirmation"
-              render={({ field: { onChange, value } }) => (
-                <GlassInput
-                  icon="lock-closed-outline"
-                  placeholder="Confirme sua senha"
-                  secureTextEntry={true}
-                  onChangeText={onChange}
-                  value={value}
-                />
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <View>
+                  <GlassInput
+                    icon="lock-closed-outline"
+                    placeholder="Confirme sua senha"
+                    secureTextEntry={true}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                  {error && (
+                    <Text className="text-red-500 text-sm ml-2 mt-1">
+                      {error.message}
+                    </Text>
+                  )}
+                </View>
               )}
             />
           </View>

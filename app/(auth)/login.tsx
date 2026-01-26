@@ -1,3 +1,4 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { Button, Spinner } from "heroui-native";
@@ -12,25 +13,34 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import z from "zod";
 import { GlassInput } from "../../components/glassInput";
 import { useLogin } from "../../hooks/useLogin";
 
 const { height } = Dimensions.get("window");
 
-type LoginForm = {
-  email: string;
-  password: string;
-};
+const loginSchema = z.object({
+  email: z.email("Email inválido"),
+  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
+});
+
+type LoginForm = z.infer<typeof loginSchema>;
 
 export default function Login() {
   const router = useRouter();
   const { mutate, isPending } = useLogin();
 
+  const { control, handleSubmit } = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
   const handleLogin = (data: LoginForm) => {
     mutate({ email: data.email, password: data.password });
   };
-
-  const { control, handleSubmit } = useForm<LoginForm>();
 
   return (
     <View className="flex-1 bg-black">
@@ -78,29 +88,49 @@ export default function Login() {
             <Controller
               control={control}
               name="email"
-              render={({ field: { onChange, value } }) => (
-                <GlassInput
-                  icon="mail-outline"
-                  placeholder="Seu email"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  onChangeText={onChange}
-                  value={value}
-                />
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <View>
+                  <GlassInput
+                    icon="mail-outline"
+                    placeholder="Seu email"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                  {error && (
+                    <Text className="text-red-500 text-sm ml-2 mt-1">
+                      {error.message}
+                    </Text>
+                  )}
+                </View>
               )}
             />
 
             <Controller
               control={control}
               name="password"
-              render={({ field: { onChange, value } }) => (
-                <GlassInput
-                  icon="lock-closed-outline"
-                  placeholder="Sua senha"
-                  secureTextEntry
-                  onChangeText={onChange}
-                  value={value}
-                />
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <View>
+                  <GlassInput
+                    icon="lock-closed-outline"
+                    placeholder="Sua senha"
+                    secureTextEntry
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                  {error && (
+                    <Text className="text-red-500 text-sm ml-2 mt-1">
+                      {error.message}
+                    </Text>
+                  )}
+                </View>
               )}
             />
           </View>
