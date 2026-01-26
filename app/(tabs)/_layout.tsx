@@ -129,6 +129,33 @@ export default function TabLayout() {
           ),
         }}
       />
+
+      <Tabs.Screen
+        name="collect"
+        options={{
+          title: "Coletas",
+          tabBarIcon: ({ color, focused }) => (
+            <View
+              style={{
+                backgroundColor: focused ? "#C0E3AF" : "transparent",
+                borderRadius: 30,
+                padding: 10,
+                height: 44,
+                width: 44,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Ionicons
+                name={focused ? "leaf" : "leaf-outline"}
+                color={color}
+                size={22}
+              />
+            </View>
+          ),
+        }}
+      />
+
       <Tabs.Screen
         name="profile"
         options={{

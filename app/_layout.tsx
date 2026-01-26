@@ -1,13 +1,14 @@
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { HeroUINativeProvider } from "heroui-native";
-import { Stack } from "expo-router";
-import "../global.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider } from "../context/AuthContext";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
 import { ProtestRiot_400Regular } from "@expo-google-fonts/protest-riot";
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useFonts } from "expo-font";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { HeroUINativeProvider } from "heroui-native";
+import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { AuthProvider } from "../context/AuthContext";
+import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,13 +33,15 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <HeroUINativeProvider
-            config={{
-              devInfo: { stylingPrinciples: false },
-            }}
-          >
-            <Stack screenOptions={{ headerShown: false }} />
-          </HeroUINativeProvider>
+          <ThemeProvider value={DefaultTheme}>
+            <HeroUINativeProvider
+              config={{
+                devInfo: { stylingPrinciples: false },
+              }}
+            >
+              <Stack screenOptions={{ headerShown: false }} />
+            </HeroUINativeProvider>
+          </ThemeProvider>
         </GestureHandlerRootView>
       </AuthProvider>
     </QueryClientProvider>
