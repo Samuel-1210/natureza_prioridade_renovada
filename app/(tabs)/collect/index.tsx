@@ -1,4 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { router } from "expo-router";
 import { Divider, Select } from "heroui-native";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -10,8 +11,10 @@ import {
   View,
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDebounce } from "use-debounce";
-import { CollectPointCard } from "../../components/collectPointCard";
+import { CollectPointCard } from "../../../components/collectPointCard";
+import { indexCollect, indexCollectImage } from "../../../hooks/useCollect";
 
 type CollectPoint = {
   id: number;
@@ -92,32 +95,32 @@ const categoriesMock = [
   {
     id: 1,
     name: "Papel",
-    icon: "document-outline",
+    icon: "document-outline" as const,
   },
   {
     id: 2,
     name: "Plástico",
-    icon: "bag-outline",
+    icon: "bag-outline" as const,
   },
   {
     id: 3,
     name: "Metal",
-    icon: "trash-outline",
+    icon: "trash-outline" as const,
   },
   {
     id: 4,
     name: "Vidro",
-    icon: "wine-outline",
+    icon: "wine-outline" as const,
   },
   {
     id: 5,
     name: "Eletrônicos",
-    icon: "desktop-outline",
+    icon: "desktop-outline" as const,
   },
   {
     id: 6,
     name: "Baterias",
-    icon: "battery-dead-outline",
+    icon: "battery-dead-outline" as const,
   },
 ];
 
@@ -128,10 +131,13 @@ export default function Collect() {
     },
   });
   const search = watch("search") || "";
-
+  const insets = useSafeAreaInsets();
+  const { data, isLoading, error } = indexCollect();
+  const { data: image } = indexCollectImage(data?.data[0].principal_image);
+  console.log(image);
   const [debouncedSearch] = useDebounce(search, 500);
 
-  const filteredCollectPoints = collectPointsMock.filter((point) =>
+  const filteredCollectPoints = data?.data?.filter((point: CollectPoint) =>
     point.name.toLowerCase().includes(debouncedSearch.toLowerCase()),
   );
 
@@ -140,7 +146,7 @@ export default function Collect() {
   }, [search]);
 
   return (
-    <View className="pt-14 flex-1 bg-white">
+    <View className="flex-1 bg-white " style={{ paddingTop: insets.top }}>
       <View className="flex flex-row items-center gap-2 mx-4">
         <Ionicons
           name="navigate-outline"
@@ -174,9 +180,13 @@ export default function Collect() {
               </Select.Portal>
             </Select>
           </View>
-          <View className="flex flex-row items-center rounded-full p-1 bg-green-300/30 ">
+          <TouchableOpacity
+            className="flex flex-row items-center rounded-full p-1 bg-green-300/30"
+            activeOpacity={0.7}
+            onPress={() => router.push("/collect/new")}
+          >
             <Ionicons name="add-outline" size={24} color="black" />
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
       <View className="mx-4">
@@ -224,28 +234,28 @@ export default function Collect() {
         ))}
       </ScrollView>
       <Divider className="w-full  bg-green-300/20 " />
-      <FlatList
+      <FlatList<CollectPoint>
         data={filteredCollectPoints}
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
-        className="py-2 px-2 bg-green-200/20 rounded-t-[20px] "
+        className="py-2 px-2 bg-green-100/20 rounded-t-[20px] "
         showsVerticalScrollIndicator={false}
         columnWrapperStyle={{ gap: 8 }}
         contentContainerStyle={{ gap: 8, paddingBottom: 100 }}
         renderItem={({ item }) => (
           <View className="flex-1">
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() => {
+                console.log(item);
+              }}
               className=""
               activeOpacity={0.8}
             >
               <CollectPointCard
                 name={item.name}
-                zipCode={item.zip_code}
+                zipCode={item.address}
                 description={item.description}
-                principalImage={
-                  "https://upload.wikimedia.org/wikipedia/commons/4/45/WilderBuildingSummerSolstice.jpg"
-                }
+                principalImage={item.principal_image}
                 category={item.category}
               />
             </TouchableOpacity>

@@ -1,7 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Button, Card } from "heroui-native";
 import { Dimensions, Image, ScrollView, Text, View } from "react-native";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
 
@@ -24,7 +24,7 @@ export default function Profile() {
     >
       <View className="relative w-full h-48 mb-16">
         <Image
-          source={require("../../assets/6221798.jpg")}
+          source={require("../../../assets/6221798.jpg")}
           className="w-full h-full object-cover"
         />
         <LinearGradient
@@ -38,7 +38,7 @@ export default function Profile() {
         >
           <View className=" bg-white rounded-full ">
             <Image
-              source={require("../../assets/6221798.jpg")}
+              source={require("../../../assets/6221798.jpg")}
               className="w-30 h-30 rounded-full border-2 border-white/20 object-cover"
             />
           </View>
