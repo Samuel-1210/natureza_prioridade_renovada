@@ -30,6 +30,14 @@ export default function TabLayout() {
           />
         </NativeTabs.Trigger>
 
+        <NativeTabs.Trigger name="collect">
+          <Label>Coletas</Label>
+          <Icon
+            sf="leaf.fill"
+            androidSrc={<VectorIcon family={Ionicons} name="leaf" />}
+          />
+        </NativeTabs.Trigger>
+
         <NativeTabs.Trigger name="profile">
           <Label>Perfil</Label>
           <Icon
@@ -61,6 +69,8 @@ export default function TabLayout() {
           marginHorizontal: 20,
           marginVertical: 0,
           shadowColor: "transparent",
+          boxShadow:
+            "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
         },
         tabBarItemStyle: {
           borderRadius: 100,
