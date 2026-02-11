@@ -1,4 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
 import { Divider, Select } from "heroui-native";
 import { useEffect } from "react";
@@ -13,84 +14,9 @@ import {
 import { TextInput } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDebounce } from "use-debounce";
+import { CollectionPoint } from "../../../api/collect";
 import { CollectPointCard } from "../../../components/collectPointCard";
-import { indexCollect, indexCollectImage } from "../../../hooks/useCollect";
-import { StatusBar } from "expo-status-bar";
-
-type CollectPoint = {
-  id: number;
-  name: string;
-  category: string;
-  address: string;
-  city: string;
-  state: string;
-  zip_code: string;
-  description?: string;
-  principal_image: string;
-  images?: string[];
-};
-
-const collectPointsMock: CollectPoint[] = [
-  {
-    id: 1,
-    name: "Coletando",
-    category: "Reciclagem",
-    address: "Rua das Flores, 123",
-    city: "São Paulo",
-    state: "SP",
-    zip_code: "01010-000",
-    description: "Aceita papel, plástico e metal",
-    principal_image: "https://picsum.photos/200/300",
-    images: ["https://picsum.photos/200/300", "https://picsum.photos/200/300"],
-  },
-  {
-    id: 2,
-    name: "Reciclando",
-    category: "Eletrônicos",
-    address: "Av. Central, 456",
-    city: "Rio de Janeiro",
-    state: "RJ",
-    zip_code: "20020-000",
-    description: "Descarte de eletrônicos e baterias",
-    principal_image: "https://picsum.photos/200/300",
-  },
-  {
-    id: 3,
-    name: "Cuidando",
-    category: "Vidro",
-    address: "Rua Verde, 789",
-    city: "Belo Horizonte",
-    state: "MG",
-    zip_code: "30130-010",
-    description: "Somente vidro limpo",
-    principal_image: "https://picsum.photos/200/300",
-    images: ["https://picsum.photos/200/300"],
-  },
-  {
-    id: 4,
-    name: "Ponto de Coleta 3",
-    category: "Vidro",
-    address: "Rua Verde, 789",
-    city: "Belo Horizonte",
-    state: "MG",
-    zip_code: "30130-010",
-    description: "Somente vidro limpo",
-    principal_image: "https://picsum.photos/200/300",
-    images: ["https://picsum.photos/200/300"],
-  },
-  {
-    id: 5,
-    name: "Ponto de Coleta 3",
-    category: "Vidro",
-    address: "Rua Verde, 789",
-    city: "Belo Horizonte",
-    state: "MG",
-    zip_code: "30130-010",
-    description: "Somente vidro limpo",
-    principal_image: "https://picsum.photos/200/300",
-    images: ["https://picsum.photos/200/300"],
-  },
-];
+import { indexCollect } from "../../../hooks/useCollect";
 
 const categoriesMock = [
   {
@@ -100,7 +26,7 @@ const categoriesMock = [
   },
   {
     id: 2,
-    name: "Plástico",
+    name: "Plastico",
     icon: "bag-outline" as const,
   },
   {
@@ -115,7 +41,7 @@ const categoriesMock = [
   },
   {
     id: 5,
-    name: "Eletrônicos",
+    name: "Eletronicos",
     icon: "desktop-outline" as const,
   },
   {
@@ -133,14 +59,13 @@ export default function Collect() {
   });
   const search = watch("search") || "";
   const insets = useSafeAreaInsets();
-  const { data, isLoading, error } = indexCollect();
-  const { data: image } = indexCollectImage(data?.data[0].principal_image);
-  console.log(image);
+  const { data } = indexCollect();
   const [debouncedSearch] = useDebounce(search, 500);
 
-  const filteredCollectPoints = data?.data?.filter((point: CollectPoint) =>
-    point.name.toLowerCase().includes(debouncedSearch.toLowerCase()),
-  );
+  const filteredCollectPoints =
+    data?.data?.filter((point) =>
+      point.name.toLowerCase().includes(debouncedSearch.toLowerCase()),
+    ) ?? [];
 
   useEffect(() => {
     console.log(search);
@@ -159,12 +84,12 @@ export default function Collect() {
         />
         <View className="flex flex-row items-center justify-between w-full pr-8">
           <View className="flex flex-col ">
-            <Text className="font-riot text-gray-800">LOCALIZAÇÃO ATUAL</Text>
+            <Text className="font-riot text-gray-800">LOCALIZACAO ATUAL</Text>
             <Select>
               <Select.Trigger className="flex flex-row items-center gap-2">
                 <Select.Value
                   className="font-riot text-green-600"
-                  placeholder="Selecione sua localização"
+                  placeholder="Selecione sua localizacao"
                 />
                 <Ionicons name="chevron-down" size={16} color="gray" />
               </Select.Trigger>
@@ -176,7 +101,7 @@ export default function Collect() {
                   align="start"
                   className="w-full"
                 >
-                  <Select.Item value="sp" label="São Paulo" />
+                  <Select.Item value="sp" label="Sao Paulo" />
                   <Select.Item value="rj" label="Rio de Janeiro" />
                   <Select.Item value="mg" label="Minas Gerais" />
                 </Select.Content>
@@ -237,7 +162,7 @@ export default function Collect() {
         ))}
       </ScrollView>
       <Divider className="w-full  bg-green-300/20 " />
-      <FlatList<CollectPoint>
+      <FlatList<CollectionPoint>
         data={filteredCollectPoints}
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
@@ -257,7 +182,7 @@ export default function Collect() {
               <CollectPointCard
                 name={item.name}
                 zipCode={item.address}
-                description={item.description}
+                description={item.description ?? undefined}
                 principalImage={"https://picsum.photos/200/300"}
                 category={item.category}
               />

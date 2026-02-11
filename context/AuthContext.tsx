@@ -1,11 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
-
-interface User {
-  name: string;
-  email: string;
-}
+import { User } from "../api/user";
 
 interface AuthContextData {
   user: User | null;

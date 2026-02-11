@@ -1,5 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { CollectPointFormData, getCollect, getCollectImage, postCollect } from "../api/collect";
+import {
+  CollectPointFormData,
+  CollectionPointsResponse,
+  getCollect,
+  getCollectImage,
+  postCollect,
+} from "../api/collect";
 
 export const useCollect = () => {
   return useMutation({
@@ -8,7 +14,7 @@ export const useCollect = () => {
 };
 
 export const indexCollect = () => {
-  return useQuery({
+  return useQuery<CollectionPointsResponse>({
     queryKey: ["collect"],
     queryFn: () => getCollect(),
     enabled: true,
