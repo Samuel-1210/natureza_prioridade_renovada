@@ -255,7 +255,7 @@ export default function Collect() {
                 name={item.name}
                 zipCode={item.address}
                 description={item.description}
-                principalImage={item.principal_image}
+                principalImage={"https://picsum.photos/200/300"}
                 category={item.category}
               />
             </TouchableOpacity>
