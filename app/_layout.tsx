@@ -7,6 +7,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { HeroUINativeProvider } from "heroui-native";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 import { AuthProvider } from "../context/AuthContext";
 import "../global.css";
 
@@ -33,21 +34,27 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <ThemeProvider value={DefaultTheme}>
-            <HeroUINativeProvider
-              config={{
-                devInfo: { stylingPrinciples: false },
-              }}
-            >
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(tabs)" />
-                <Stack.Screen
-                  name="collect"
-                  options={{ animation: "slide_from_right" }}
-                />
-              </Stack>
-            </HeroUINativeProvider>
-          </ThemeProvider>
+          <KeyboardProvider
+            statusBarTranslucent
+            navigationBarTranslucent
+            preserveEdgeToEdge
+          >
+            <ThemeProvider value={DefaultTheme}>
+              <HeroUINativeProvider
+                config={{
+                  devInfo: { stylingPrinciples: false },
+                }}
+              >
+                <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="(tabs)" />
+                  <Stack.Screen
+                    name="collect"
+                    options={{ animation: "slide_from_right" }}
+                  />
+                </Stack>
+              </HeroUINativeProvider>
+            </ThemeProvider>
+          </KeyboardProvider>
         </GestureHandlerRootView>
       </AuthProvider>
     </QueryClientProvider>

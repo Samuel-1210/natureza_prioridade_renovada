@@ -15,6 +15,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDebounce } from "use-debounce";
 import { CollectPointCard } from "../../../components/collectPointCard";
 import { indexCollect, indexCollectImage } from "../../../hooks/useCollect";
+import { StatusBar } from "expo-status-bar";
 
 type CollectPoint = {
   id: number;
@@ -147,6 +148,8 @@ export default function Collect() {
 
   return (
     <View className="flex-1 bg-white " style={{ paddingTop: insets.top }}>
+      <StatusBar style="dark" translucent backgroundColor="transparent" />
+
       <View className="flex flex-row items-center gap-2 mx-4">
         <Ionicons
           name="navigate-outline"
